@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
 
 @interface DomainrAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	UINavigationController *navigationController;
-
+	NetworkStatus internetConnectionStatus;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UINavigationController *navigationController;
+@property NetworkStatus internetConnectionStatus;
 
 @end
 

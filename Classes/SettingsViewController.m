@@ -42,17 +42,17 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)toggleSwitch:(id)sender {
-	UISwitch *aSwitch = (UISwitch *)sender;
-	
-	if([aSwitch isOn]){
-		[prefs setBool:YES forKey:@"autocorrectSpelling"];
-	}
-	else {
-		[prefs setBool:NO forKey:@"autocorrectSpelling"];
-	}
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"AutocorrectionNotification" object:nil];
-}
+//- (void)toggleSwitch:(id)sender {
+//	UISwitch *aSwitch = (UISwitch *)sender;
+//	
+//	if([aSwitch isOn]){
+//		[prefs setBool:YES forKey:@"autocorrectSpelling"];
+//	}
+//	else {
+//		[prefs setBool:NO forKey:@"autocorrectSpelling"];
+//	}
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"AutocorrectionNotification" object:nil];
+//}
 
 #pragma mark Table view methods
 
@@ -76,13 +76,13 @@
 	
 	if(indexPath.section == 0){
 		if(indexPath.row == 0){
-			UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectMake(200, 8, 0, 0)];
-			//[mySwitch setOn:[prefs boolForKey:@"autocorrectSpelling"] animated:YES];
-			mySwitch.on = [prefs boolForKey:@"autocorrectSpelling"];
-			[mySwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
-			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-			[[cell textLabel] setText:@"Auto-correction"];
-			[[cell contentView] addSubview:mySwitch];
+//			UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectMake(200, 8, 0, 0)];
+//			//[mySwitch setOn:[prefs boolForKey:@"autocorrectSpelling"] animated:YES];
+//			mySwitch.on = [prefs boolForKey:@"autocorrectSpelling"];
+//			[mySwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventValueChanged];
+//			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//			[[cell textLabel] setText:@"Auto-correction"];
+//			[[cell contentView] addSubview:mySwitch];
 		}
 	}
     	

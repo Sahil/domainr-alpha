@@ -16,6 +16,7 @@
 #import "ResultCell.h"
 #import "ResultWrapper.h"
 #import "SettingsViewController.h"
+#import	"Reachability.h"
 
 @implementation MainViewController
 
@@ -75,14 +76,14 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];	
 	prefs = [NSUserDefaults standardUserDefaults];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enableAutocorrection) name:@"AutocorrectionNotification" object:nil];
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enableAutocorrection) name:@"AutocorrectionNotification" object:nil];
 
-	if([prefs boolForKey:@"autocorrectionSpelling"] ){
-		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeYes];		
-	}
-	else{
-		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeNo];			
-	}
+	//if([prefs boolForKey:@"autocorrectionSpelling"] ){
+//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeYes];		
+//	}
+//	else{
+//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeNo];			
+//	}
 	[mySearchBar becomeFirstResponder];
 }
 
@@ -90,14 +91,14 @@
 
 }
 
-- (void)enableAutocorrection{
-	if([prefs boolForKey:@"autocorrectSpelling"]){
-		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeYes];		
-	} 
-	else {
-		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeNo];
-	}
-}
+//- (void)enableAutocorrection{
+//	if([prefs boolForKey:@"autocorrectSpelling"]){
+//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeYes];		
+//	} 
+//	else {
+//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeNo];
+//	}
+//}
 
 - (void)showSettings:(id)sender {
 	if(settingsController == nil)
@@ -106,6 +107,15 @@
 		navController = [[UINavigationController alloc] initWithRootViewController:settingsController];		
 	}
 	[self.navigationController presentModalViewController:navController animated:YES];
+}
+
+- (BOOL)networkAvailable {
+	if ([[Reachability sharedReachability] internetConnectionStatus] == NotReachable) {
+        UIAlertView *networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sorry, the network isn't available." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [networkAlert show];
+		return NO;
+    }
+	return YES;
 }
 
 #pragma mark UISearchBarDelegate methods
@@ -136,6 +146,8 @@
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text { // called before text changes
+	if(![self networkAvailable]) return NO;
+	
 	if(([text isEqualToString:@""] && [[mySearchBar text] length] == 0) || [text isEqualToString:@" "])
 	{
 		if(![text isEqualToString:@" "]) {
@@ -155,19 +167,18 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {                     // called when keyboard search button pressed
 	[ myTableView setFrame:CGRectMake(0.0f, 44.0f, 320.0f, 372.0f) ];
+	[searchBar resignFirstResponder];
+	if(![self networkAvailable]) return;
 	
 	[self search:searchBar];
-	[searchBar resignFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{                   // called when cancel button pressed
 	[searchBar resignFirstResponder];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope{	
-}
-
-- (void)search:(id)sender {	
+- (void)search:(id)sender {
+	
 	[ UIView beginAnimations: nil context: nil ];
 	[ UIView setAnimationCurve: UIViewAnimationCurveEaseInOut ];
 	[ UIView setAnimationDuration: DURATION ];

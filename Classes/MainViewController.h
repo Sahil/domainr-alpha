@@ -42,5 +42,6 @@
 @property (nonatomic, retain) SettingsViewController *settingsController;
 
 -(void)search:(id)sender;
+-(BOOL)networkAvailable;
 
 @end
