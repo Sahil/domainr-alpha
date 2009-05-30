@@ -164,8 +164,10 @@
 	[activityIndicator startAnimating];
 	loading = YES;
 	
+	NSString *urlSearchString = [NSString stringWithFormat: @"http://domai.nr/api/json/search?q=%@", [mySearchBar text]];
+	
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:
-																		 [NSString stringWithFormat: @"http://domai.nr/api/json/search?q=%@", [mySearchBar text]]]
+																		 [urlSearchString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]
 															cachePolicy:NSURLRequestUseProtocolCachePolicy
 														timeoutInterval:60.0];
 	[theRequest setHTTPMethod:@"GET"];
