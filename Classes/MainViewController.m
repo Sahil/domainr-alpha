@@ -109,10 +109,6 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{   // called when text changes (including clear)
-	if([searchText hasSuffix:@" "]) {
-		[mySearchBar setText:[searchText substringToIndex:([searchText length]-2)]];
-		return;
-	}
 	
 	if([searchText isEqualToString:@""])
 	{
@@ -131,12 +127,8 @@
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text { // called before text changes
 	if(![self networkAvailable]) return NO;
 	
-	if(([text isEqualToString:@""] && [[mySearchBar text] length] == 0) || [text isEqualToString:@" "])
+	if(([text isEqualToString:@""] && [[mySearchBar text] length] == 0))
 	{
-		if(![text isEqualToString:@" "]) {
-			[activityIndicator stopAnimating];
-			return YES;
-		}
 		return NO;
 	}
 

@@ -11,10 +11,6 @@
 
 @class SettingsViewController;
 
-@interface UISearchBar (UITextInputTraits)
--(void)setKeyboardType;
-@end
-
 @interface MainViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,UINavigationBarDelegate> {
 	NSUserDefaults			*prefs;
 	SettingsViewController	*settingsController;
