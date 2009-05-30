@@ -76,29 +76,12 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];	
 	prefs = [NSUserDefaults standardUserDefaults];
-	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enableAutocorrection) name:@"AutocorrectionNotification" object:nil];
-
-	//if([prefs boolForKey:@"autocorrectionSpelling"] ){
-//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeYes];		
-//	}
-//	else{
-//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeNo];			
-//	}
 	[mySearchBar becomeFirstResponder];
 }
 
 - (void)viewDidUnload {
 
 }
-
-//- (void)enableAutocorrection{
-//	if([prefs boolForKey:@"autocorrectSpelling"]){
-//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeYes];		
-//	} 
-//	else {
-//		[mySearchBar setAutocorrectionType:UITextAutocorrectionTypeNo];
-//	}
-//}
 
 - (void)showSettings:(id)sender {
 	if(settingsController == nil)
