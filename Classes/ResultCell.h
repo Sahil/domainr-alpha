@@ -16,6 +16,7 @@
 }
 
 - (void)setResultWrapper:(ResultWrapper *)newResultWrapper;
+- (ResultWrapper *)getResultWrapper;
 
 @property (nonatomic, retain) ResultView *resultView;
 

@@ -32,12 +32,14 @@
     [Beacon initAndStartBeaconWithApplicationCode:applicationCode
 								  useCoreLocation:NO useOnlyWiFi:NO];
 	
+	
 	MainViewController *mainViewController = [[MainViewController alloc] init];
 	UINavigationController *aNavigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
 	self.navigationController = aNavigationController;	
 	[aNavigationController release];
 	[mainViewController release];
-	[self.navigationController setNavigationBarHidden:YES]; 
+	[self.navigationController setNavigationBarHidden:YES];
+	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 }

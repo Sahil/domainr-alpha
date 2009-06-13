@@ -16,7 +16,9 @@
 #import "ResultCell.h"
 #import "ResultWrapper.h"
 #import "SettingsViewController.h"
+#import "ResultViewController.h"
 #import	"Reachability.h"
+#import "FavouritesViewController.h"
 
 @implementation MainViewController
 
@@ -34,7 +36,7 @@
 
 - (void)loadView {
 	[super loadView];
-	
+		
 	barForBorder = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
 	backgroundBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, -1, 320, 44)];
 	
@@ -63,7 +65,13 @@
 																	   style:UIBarButtonItemStylePlain 
 																	  target:self
 																	  action:@selector(showSettings:)];
-	NSArray *newItems = [NSArray arrayWithObjects:settingsButton, nil];
+	
+	UIBarButtonItem *favouriteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"star.png"] 
+																	   style:UIBarButtonItemStylePlain 
+																	  target:self
+																	  action:@selector(showFavourites:)];
+	
+	NSArray *newItems = [NSArray arrayWithObjects:settingsButton, flexSpace, favouriteButton, nil];
 	[toolbar setItems:newItems];
 	
 	[self.view addSubview:barForBorder];
@@ -76,11 +84,21 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];	
 	prefs = [NSUserDefaults standardUserDefaults];
+	
+	favouritesArray = (NSMutableArray *)[prefs arrayForKey:@"favourites"];
+	if(favouritesArray == nil) {
+		favouritesArray = [[NSMutableArray alloc] init];
+	}
+	
 	[mySearchBar becomeFirstResponder];
 }
 
-- (void)viewDidUnload {
+- (void)viewWillAppear:(BOOL)animated {
+	[self.navigationController setNavigationBarHidden:YES animated:YES];
+}
 
+- (void)viewDidUnload {
+	
 }
 
 - (void)showSettings:(id)sender {
@@ -88,6 +106,15 @@
 	{	
 		settingsController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
 		navController = [[UINavigationController alloc] initWithRootViewController:settingsController];		
+	}
+	[self.navigationController presentModalViewController:navController animated:YES];
+}
+
+- (void)showFavourites:(id)sender {
+	if(favouritesController == nil)
+	{	
+		favouritesController = [[FavouritesViewController alloc] initWithStyle:UITableViewStylePlain];
+		navController = [[UINavigationController alloc] initWithRootViewController:favouritesController];		
 	}
 	[self.navigationController presentModalViewController:navController animated:YES];
 }
@@ -191,7 +218,7 @@
 	
 	jsonString = [[NSString alloc] initWithData:receivedData encoding:NSASCIIStringEncoding];	
 	
-	//NSLog(@"JSON: %@",jsonString);
+	NSLog(@"JSON: %@",jsonString);
 	
 	NSError *error = nil;
 	
@@ -251,7 +278,10 @@
 
     if (cell == nil) {
 		cell = [[[ResultCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		[cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
+
 	if(resultsArray != nil)
 	{	
 		NSDictionary *domainInfo = [resultsArray objectAtIndex:indexPath.row];	
@@ -269,22 +299,105 @@
 			[wrapper setImageType:MAYBE];		
 		}
 		else if([availability isEqualToString:@"taken"]) {
-			[wrapper setImageType:TAKEN];		
+			[wrapper setImageType:TAKEN];
 		}
 		else {
 			[wrapper setImageType:2];
 		}
 
 		[cell setResultWrapper:wrapper];
+		
+		BOOL starred = [self isFavourite:domain];
+		UIImage *image = (starred) ? [UIImage imageNamed:@"star_pressed.png"] : [UIImage imageNamed:@"star.png"];
+		
+		UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+		CGRect frame = CGRectMake(0.0, 0.0, 25, 25);
+		button.frame = frame;
+		
+		[button setBackgroundImage:image forState:UIControlStateNormal];
+		
+		[button addTarget:self action:@selector(starButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
+		button.backgroundColor = [UIColor clearColor];
+		cell.accessoryView = button;
 	}
     return cell;
 }
 
+- (BOOL)isFavourite:(NSString *)domainName {
+	for (NSString *name in favouritesArray) {
+		if([domainName isEqualToString:name]){
+			return YES;
+		}
+	}
+	return NO;
+}
+
+-(void)favourite:(NSString *)domainName {
+	[favouritesArray addObject:domainName];
+	[self syncFavourites];
+}
+
+-(BOOL)unfavourite:(NSString *)domainName {
+	NSUInteger i, count = [favouritesArray count];
+	for (i = 0; i < count; i++) {
+		NSString * name = [favouritesArray objectAtIndex:i];
+		if([domainName isEqualToString:name]) {
+			[favouritesArray removeObjectAtIndex:i];
+			[self syncFavourites];
+			return YES;
+		}
+	}
+	NSLog(@"Attempted to unfavourite an item that does not exist: %@",domainName);
+	return NO;
+}
+
+- (void)syncFavourites {
+	[prefs setObject:favouritesArray forKey:@"favourites"];
+}
+
+- (void)starButtonTapped:(id)sender event:(id)event
+{
+	NSSet *touches = [event allTouches];
+	UITouch *touch = [touches anyObject];
+	CGPoint currentTouchPosition = [touch locationInView:myTableView];
+	NSIndexPath *indexPath = [myTableView indexPathForRowAtPoint: currentTouchPosition];
+	if (indexPath != nil)
+	{
+		[self tableView: myTableView accessoryButtonTappedForRowWithIndexPath: indexPath];
+	}
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{	
+	NSDictionary *domainInfo = [resultsArray objectAtIndex:indexPath.row];	
+	NSString *domain = [[[domainInfo objectForKey:@"domain"] retain] autorelease];
+	
+	BOOL starred = [self isFavourite:domain];
+
+	if(starred) {
+		if(![self unfavourite:domain]) return;
+	}
+	else {
+		[self favourite:domain];		
+	}
+	
+	ResultCell *cell = (ResultCell *)[tableView cellForRowAtIndexPath:indexPath];
+	UIButton *button = (UIButton *)cell.accessoryView;
+	
+	UIImage *newImage = (starred) ? [UIImage imageNamed:@"star.png"] : [UIImage imageNamed:@"star_pressed.png"];
+	[button setBackgroundImage:newImage forState:UIControlStateNormal];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	ResultCell *currentCell = (ResultCell *)[myTableView cellForRowAtIndexPath:indexPath];
+	
+	ResultViewController *resultViewController = [[ResultViewController alloc] initWithStyle:UITableViewStyleGrouped];
+	ResultWrapper *wrapper = [currentCell getResultWrapper];
+	[resultViewController setDomainName:wrapper.domainName];
+	
+	[self.navigationController pushViewController:resultViewController animated:YES];
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-
 
 @end

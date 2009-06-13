@@ -1,44 +1,34 @@
 //
-//  SettingsViewController.m
+//  ResultViewController.m
 //  Domainr
 //
-//  Created by Sahil Desai on 5/25/09.
+//  Created by Sahil Desai on 5/30/09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "SettingsViewController.h"
+#import "ResultViewController.h"
 
-@implementation SettingsViewController
+
+@implementation ResultViewController
+
+@synthesize domainName;
 
 - (id)initWithStyle:(UITableViewStyle)style {
-	if (self = [super initWithStyle:style]) {
-	}
-	return self;
-}
-
-- (id)init {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-
-	}
-	return self;
+    if (self = [super initWithStyle:style]) {
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
-	[super viewDidLoad];
-	prefs = [NSUserDefaults standardUserDefaults];
-	[[self navigationItem] setTitle:@"Settings"];
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
-	[[self navigationItem] setRightBarButtonItem:doneButton];
-	[doneButton release];
+    [super viewDidLoad];
+	[self setTitle:domainName];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)viewDidUnload {
-	
-}
-
-- (void)done:(id)sender {
-	[self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark Table view methods
@@ -47,9 +37,8 @@
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -61,14 +50,9 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 	
-	if(indexPath.section == 0){
-		if(indexPath.row == 0){
-
-		}
-	}
-    	
     return cell;
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];

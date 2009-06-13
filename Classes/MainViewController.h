@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "CJSONDeserializer.h"
+#import "Protocols.h"
 
 @class SettingsViewController;
+@class FavouritesViewController;
 
-@interface MainViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,UINavigationBarDelegate> {
+@interface MainViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UINavigationBarDelegate> {
 	NSUserDefaults			*prefs;
 	SettingsViewController	*settingsController;
+	FavouritesViewController *favouritesController;
 	
 	UINavigationController	*navController;
 	UIToolbar				*toolbar;
@@ -30,10 +33,12 @@
 	
 	NSString				*searchQuery;
 	NSMutableArray			*resultsArray;
+	NSMutableArray			*favouritesArray; 
+	NSMutableArray			*favouritesInfoArray;
 	BOOL					loading;
 	
 	UIActivityIndicatorView *activityIndicator;
-	UIBarButtonItem *loadingView;
+	UIBarButtonItem			*loadingView;
 }
 
 @property (nonatomic, retain) UITableView	*myTableView;
@@ -43,5 +48,9 @@
 
 -(void)search:(id)sender;
 -(BOOL)networkAvailable;
+-(BOOL)isFavourite:(NSString *)domainName;
+-(void)favourite:(NSString *)domainName;
+-(BOOL)unfavourite:(NSString *)domainName;
+- (void)syncFavourites;
 
 @end

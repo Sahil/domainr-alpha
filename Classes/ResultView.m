@@ -83,7 +83,8 @@ static UIColor *whiteColor, *blackColor, *grayColor, *darkGrayColor;
 		[lightTextColor set];
 		[resultWrapper.availability drawInRect:CGRectMake(40.0f, rect.size.height-25, 250.0f, 20.0f) withFont:aTextFont lineBreakMode:UILineBreakModeWordWrap];
 		
-		[resultWrapper.image drawInRect:CGRectMake(10.0f, 10.0f, 20.0f, 20.0f)];
+		CGFloat imageY = (rect.size.height - 20.0) / 2.0;
+		[resultWrapper.image drawInRect:CGRectMake(10.0f, imageY, 20.0f, 20.0f)];
 	}
 
 }

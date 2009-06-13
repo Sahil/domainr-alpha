@@ -30,6 +30,10 @@
 	resultView.resultWrapper = newResultWrapper;
 }
 
+- (ResultWrapper *)getResultWrapper {
+	return resultView.resultWrapper;
+}
+
 - (void)dealloc {
 	[resultView release];
     [super dealloc];
