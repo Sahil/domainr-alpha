@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CJSONDeserializer.h"
-#import "Protocols.h"
 
 @class SettingsViewController;
 @class FavouritesViewController;
@@ -33,8 +32,8 @@
 	
 	NSString				*searchQuery;
 	NSMutableArray			*resultsArray;
-	NSMutableArray			*favouritesArray; 
-	NSMutableArray			*favouritesInfoArray;
+	NSMutableArray			*favouritesArray;
+	NSMutableArray			*resultObjectsArray;
 	BOOL					loading;
 	
 	UIActivityIndicatorView *activityIndicator;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ResultWrapper : NSObject {
+@interface ResultWrapper : NSObject <NSCoding> {
 	NSString	*domainName;
 	NSString	*availability;
 	UIImage		*image;

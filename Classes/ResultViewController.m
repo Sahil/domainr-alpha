@@ -11,7 +11,8 @@
 
 @implementation ResultViewController
 
-@synthesize domainName;
+@synthesize domain;
+@synthesize status;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     if (self = [super initWithStyle:style]) {
@@ -21,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:domainName];
+//	[self setTitle:domain];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -50,6 +51,43 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 	
+	[[cell textLabel] setTextAlignment:UITextAlignmentCenter];
+
+	if(indexPath.row == 0){
+		[[cell textLabel] setFont:[UIFont boldSystemFontOfSize:28]];
+		[[cell textLabel] setText:domain];
+	}
+	else if(indexPath.row == 1) {
+		[[cell textLabel] setFont:[UIFont systemFontOfSize:14.0]];
+		if([status isEqualToString:@"available"]){
+			[[cell textLabel] setTextColor:[UIColor greenColor]];
+			[[cell textLabel] setText:@"This domain is available."];
+		}
+		if([status isEqualToString:@"maybe"]){
+			[[cell textLabel] setTextColor:[UIColor greenColor]];
+			[[cell textLabel] setText:@"This domain might be available."];
+		}
+		else if([status isEqualToString:@"taken"]){
+			[[cell textLabel] setTextColor:[UIColor redColor]];
+			[[cell textLabel] setText:@"This domain is taken."];
+		}
+		else if([status isEqualToString:@"unavailable"]){
+			[[cell textLabel] setTextColor:[UIColor redColor]];
+			[[cell textLabel] setText:@"This domain is not available."];
+		}
+		else if([status isEqualToString:@"top-level domain"]){
+			[[cell textLabel] setTextColor:[UIColor darkGrayColor]];
+			[[cell textLabel] setText:@"Top-Level Domain."];
+		}
+		else if([status isEqualToString:@"subdomain"]){
+			[[cell textLabel] setTextColor:[UIColor darkGrayColor]];
+			[[cell textLabel] setText:[NSString stringWithFormat:@"Subdomain of %@.",domain]];
+		}
+	}
+	else if(indexPath.row == 2) {
+		[[cell textLabel] setFont:[UIFont systemFontOfSize:14]];
+		[[cell textLabel] setText:@"Register / More information"];
+	}
     return cell;
 }
 

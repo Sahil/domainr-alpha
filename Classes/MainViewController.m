@@ -9,6 +9,7 @@
 #define AVAILABLE 0
 #define MAYBE 1
 #define TAKEN 2
+#define TLD 3
 #define DURATION 0.2f
 
 #import "MainViewController.h"
@@ -290,21 +291,34 @@
 		
 		ResultWrapper *wrapper = [[ResultWrapper alloc] init];
 		[wrapper setDomainName:domain];
-		[wrapper setAvailability:availability];
 		
 		if([availability isEqualToString:@"available"]){
 			[wrapper setImageType:AVAILABLE];
+			[wrapper setAvailability:@"available"];
 		}
 		else if([availability isEqualToString:@"maybe"]) {
-			[wrapper setImageType:MAYBE];		
+			[wrapper setImageType:MAYBE];
+			[wrapper setAvailability:@"maybe"];
 		}
 		else if([availability isEqualToString:@"taken"]) {
 			[wrapper setImageType:TAKEN];
+			[wrapper setAvailability:@"taken"];
 		}
+		else if([availability isEqualToString:@"tld"]) {
+			[wrapper setImageType:TLD];
+			[wrapper setAvailability:@"top-level domain"];
+		}
+		else if([availability isEqualToString:@"known"]) {
+			[wrapper setImageType:TLD];
+			[wrapper setAvailability:@"subdomain"];
+		}		
 		else {
 			[wrapper setImageType:2];
+			[wrapper setImageType:TAKEN];
+			[wrapper setAvailability:availability];
 		}
-
+		
+		
 		[cell setResultWrapper:wrapper];
 		
 		BOOL starred = [self isFavourite:domain];
@@ -393,7 +407,8 @@
 	
 	ResultViewController *resultViewController = [[ResultViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	ResultWrapper *wrapper = [currentCell getResultWrapper];
-	[resultViewController setDomainName:wrapper.domainName];
+	[resultViewController setDomain:wrapper.domainName];
+	[resultViewController setStatus:wrapper.availability];
 	
 	[self.navigationController pushViewController:resultViewController animated:YES];
 	

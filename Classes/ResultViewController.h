@@ -10,9 +10,11 @@
 
 
 @interface ResultViewController : UITableViewController {
-	NSString *domainName;
+	NSString *domain;
+	NSString *status;
 }
 
-@property (nonatomic, retain) NSString *domainName;
+@property (nonatomic, retain) NSString *domain;
+@property (nonatomic, retain) NSString *status;
 
 @end
