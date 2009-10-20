@@ -1,23 +1,32 @@
-//
-//  ResultCell.h
-//  Disqus
-//
-//  Created by Sahil Desai on 5/20/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
-//
+#import "Result.h"
+@class ResultContentView;
 
-#import <UIKit/UIKit.h>
-
-@class ResultWrapper;
-@class ResultView;
 
 @interface ResultCell : UITableViewCell {
-	ResultView *resultView;
+	Result *result;
+	ResultContentView *mainContentView;
 }
 
-- (void)setResultWrapper:(ResultWrapper *)newResultWrapper;
-- (ResultWrapper *)getResultWrapper;
+@property (retain) Result *result;
+@property (readonly) ResultContentView *mainContentView;
 
-@property (nonatomic, retain) ResultView *resultView;
+@end
 
+@interface ResultContentView : UIView {
+	ResultCell *resultCell;
+}
+- (id) initWithResultCell: (ResultCell*) theCell;
+@end
+
+@interface ResultBackgroundView : UIView {
+    ResultCell* resultCell;
+}
+- (id) initWithResultCell: (ResultCell*) theCell;
+@end
+
+
+@interface ResultSelectedBackgroundView : UIView {
+    ResultCell* resultCell;
+}
+- (id) initWithResultCell: (ResultCell*) theCell;
 @end
