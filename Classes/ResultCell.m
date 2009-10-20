@@ -79,7 +79,7 @@
 
 	- (void) drawCellInteriorInRect: (CGRect) rect isSelected: (BOOL) isSelected; {
 		if (!domainFont) {
-			domainFont = [[UIFont boldSystemFontOfSize:16] retain];
+			domainFont = [[UIFont systemFontOfSize:16] retain];
 			availabilityFont = [[UIFont systemFontOfSize:14] retain];
 		}
 		
@@ -103,11 +103,11 @@
 		[result.availability drawInRect:CGRectMake(40, rect.size.height - 25, rect.size.width - 50, 20) withFont:availabilityFont lineBreakMode:UILineBreakModeWordWrap];
 		
 		if(result.imageType == kAvailable)
-		 	[[UIImage imageNamed:@"available.png"] drawInRect: CGRectMake(10, (rect.size.height - 20) / 2.0, 20, 20) blendMode: kCGBlendModeNormal alpha: 1.0];
+		 	[[UIImage imageNamed:@"available.png"] drawInRect: CGRectMake(12.5, (rect.size.height - 20) / 2.0, 15, 15) blendMode: kCGBlendModeNormal alpha: 1.0];
 		else if(result.imageType == kMaybe)
-		 	[[UIImage imageNamed:@"maybe.png"] drawInRect: CGRectMake(10, (rect.size.height - 20) / 2.0, 20, 20) blendMode: kCGBlendModeNormal alpha: 1.0];
+		 	[[UIImage imageNamed:@"maybe.png"] drawInRect: CGRectMake(12.5, (rect.size.height - 20) / 2.0, 15, 15) blendMode: kCGBlendModeNormal alpha: 1.0];
 		else if(result.imageType == kTLD)
-			[[UIImage imageNamed:@"tld.png"] drawInRect: CGRectMake(10, (rect.size.height - 20) / 2.0, 20, 20) blendMode: kCGBlendModeNormal alpha: 1.0];
+			[[UIImage imageNamed:@"tld.png"] drawInRect: CGRectMake(12.5, (rect.size.height - 20) / 2.0, 15, 15) blendMode: kCGBlendModeNormal alpha: 1.0];
 		else if(result.imageType == kTaken) {
 			//currentImage = [UIImage imageNamed: @"taken.png"];
 		}
