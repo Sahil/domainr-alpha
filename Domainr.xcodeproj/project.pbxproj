@@ -26,11 +26,6 @@
 		BA9D0D4D0FCA4FC100E2B262 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = BA9D0D430FCA4FC000E2B262 /* CJSONDeserializer.m */; };
 		BA9D0D4E0FCA4FC100E2B262 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = BA9D0D450FCA4FC100E2B262 /* CJSONScanner.m */; };
 		BA9D0D4F0FCA4FC100E2B262 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = BA9D0D470FCA4FC100E2B262 /* CJSONSerializer.m */; };
-		BA9D0D610FCA4FE000E2B262 /* prefs.png in Resources */ = {isa = PBXBuildFile; fileRef = BA9D0D5F0FCA4FE000E2B262 /* prefs.png */; };
-		BA9D0D620FCA4FE000E2B262 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = BA9D0D600FCA4FE000E2B262 /* star.png */; };
-		BA9D0D640FCA4FF800E2B262 /* magnifying-glass.png in Resources */ = {isa = PBXBuildFile; fileRef = BA9D0D630FCA4FF800E2B262 /* magnifying-glass.png */; };
-		BA9D0D800FCA599100E2B262 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = BA9D0D7F0FCA599100E2B262 /* Default.png */; };
-		BA9D0DBB0FCA5EBF00E2B262 /* libPMAnalytics-r47.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9D0DBA0FCA5EBF00E2B262 /* libPMAnalytics-r47.a */; };
 		BA9D0DD50FCA5FDB00E2B262 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9D0DD40FCA5FDB00E2B262 /* libsqlite3.0.dylib */; };
 		BA9D0DD70FCA5FE900E2B262 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9D0DD60FCA5FE900E2B262 /* CoreLocation.framework */; };
 		BA9D0DDB0FCA602300E2B262 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9D0DDA0FCA602300E2B262 /* SystemConfiguration.framework */; };
@@ -44,8 +39,6 @@
 		BAAD93E2108C1D3200A27DC6 /* NSScanner+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAD93E0108C1D3200A27DC6 /* NSScanner+Extensions.m */; };
 		BAAD9407108C1DC700A27DC6 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAAD9406108C1DC700A27DC6 /* MainViewController.xib */; };
 		BAAD9460108C253900A27DC6 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAD945F108C253900A27DC6 /* Reachability.m */; };
-		BAC9194F0FD24357008A128C /* bubblestar.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC9194E0FD24357008A128C /* bubblestar.png */; };
-		BAC919650FD24807008A128C /* star_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC919640FD24807008A128C /* star_pressed.png */; };
 		BAD5C01A107D9C4000C819F4 /* Result.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD5C019107D9C4000C819F4 /* Result.m */; };
 /* End PBXBuildFile section */
 
@@ -85,11 +78,6 @@
 		BA9D0D450FCA4FC100E2B262 /* CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONScanner.m; sourceTree = "<group>"; };
 		BA9D0D460FCA4FC100E2B262 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
 		BA9D0D470FCA4FC100E2B262 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
-		BA9D0D5F0FCA4FE000E2B262 /* prefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prefs.png; sourceTree = "<group>"; };
-		BA9D0D600FCA4FE000E2B262 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
-		BA9D0D630FCA4FF800E2B262 /* magnifying-glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magnifying-glass.png"; sourceTree = "<group>"; };
-		BA9D0D7F0FCA599100E2B262 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		BA9D0DBA0FCA5EBF00E2B262 /* libPMAnalytics-r47.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPMAnalytics-r47.a"; sourceTree = "<group>"; };
 		BA9D0DD40FCA5FDB00E2B262 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		BA9D0DD60FCA5FE900E2B262 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		BA9D0DDA0FCA602300E2B262 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -107,8 +95,6 @@
 		BAAD9406108C1DC700A27DC6 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainViewController.xib; path = ../MainViewController.xib; sourceTree = "<group>"; };
 		BAAD945E108C253900A27DC6 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		BAAD945F108C253900A27DC6 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		BAC9194E0FD24357008A128C /* bubblestar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubblestar.png; sourceTree = "<group>"; };
-		BAC919640FD24807008A128C /* star_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_pressed.png; sourceTree = "<group>"; };
 		BAD5C018107D9C4000C819F4 /* Result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Result.h; sourceTree = "<group>"; };
 		BAD5C019107D9C4000C819F4 /* Result.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Result.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,7 +107,6 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
-				BA9D0DBB0FCA5EBF00E2B262 /* libPMAnalytics-r47.a in Frameworks */,
 				BA9D0DD50FCA5FDB00E2B262 /* libsqlite3.0.dylib in Frameworks */,
 				BA9D0DD70FCA5FE900E2B262 /* CoreLocation.framework in Frameworks */,
 				BA9D0DDB0FCA602300E2B262 /* SystemConfiguration.framework in Frameworks */,
@@ -182,7 +167,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BA9D0D7F0FCA599100E2B262 /* Default.png */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				BA9D10F10FCA8DA200E2B262 /* Entitlements.plist */,
 				8D1107310486CEB800E47090 /* Domainr-Info.plist */,
@@ -196,7 +180,6 @@
 				BA9D0DD40FCA5FDB00E2B262 /* libsqlite3.0.dylib */,
 				BA9D0DD60FCA5FE900E2B262 /* CoreLocation.framework */,
 				BA9D0DDA0FCA602300E2B262 /* SystemConfiguration.framework */,
-				BA9D0DBA0FCA5EBF00E2B262 /* libPMAnalytics-r47.a */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
@@ -254,11 +237,6 @@
 				BA9D0F180FCA69F000E2B262 /* taken.png */,
 				BA9D0EF00FCA67B600E2B262 /* maybe.png */,
 				BA9D0EF20FCA67BA00E2B262 /* available.png */,
-				BA9D0D5F0FCA4FE000E2B262 /* prefs.png */,
-				BA9D0D600FCA4FE000E2B262 /* star.png */,
-				BAC919640FD24807008A128C /* star_pressed.png */,
-				BAC9194E0FD24357008A128C /* bubblestar.png */,
-				BA9D0D630FCA4FF800E2B262 /* magnifying-glass.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -306,17 +284,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				BA9D0D610FCA4FE000E2B262 /* prefs.png in Resources */,
-				BA9D0D620FCA4FE000E2B262 /* star.png in Resources */,
-				BA9D0D640FCA4FF800E2B262 /* magnifying-glass.png in Resources */,
-				BA9D0D800FCA599100E2B262 /* Default.png in Resources */,
 				BA9D0EF10FCA67B600E2B262 /* maybe.png in Resources */,
 				BA9D0EF30FCA67BA00E2B262 /* available.png in Resources */,
 				BA9D0F190FCA69F000E2B262 /* taken.png in Resources */,
 				BA9D10F20FCA8DA200E2B262 /* Entitlements.plist in Resources */,
 				BA9D11160FCA8F4300E2B262 /* icon.png in Resources */,
-				BAC9194F0FD24357008A128C /* bubblestar.png in Resources */,
-				BAC919650FD24807008A128C /* star_pressed.png in Resources */,
 				BA8A7D850FE4E44D00D5907E /* tld.png in Resources */,
 				BAAD9407108C1DC700A27DC6 /* MainViewController.xib in Resources */,
 			);
