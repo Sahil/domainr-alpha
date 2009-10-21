@@ -79,7 +79,7 @@
 
 	- (void) drawCellInteriorInRect: (CGRect) rect isSelected: (BOOL) isSelected; {
 		if (!domainFont) {
-			domainFont = [[UIFont systemFontOfSize:16] retain];
+			domainFont = [[UIFont systemFontOfSize:17] retain];
 			availabilityFont = [[UIFont systemFontOfSize:14] retain];
 		}
 		
@@ -91,26 +91,27 @@
 			lightTextColor = [UIColor whiteColor];
 		} 
 		else {
-			mainTextColor = [UIColor blackColor];
+			if(result.imageType == kUnavailable)
+				mainTextColor = [UIColor blackColor];
+			else
+				mainTextColor = UIColorFromRGB(0x2160AD);
 			lightTextColor = [UIColor grayColor];
 			self.backgroundColor = [UIColor whiteColor];
 		}
 		
 		[mainTextColor set];
-		[result.domainName drawInRect:CGRectMake(40, 10, rect.size.width - 50, rect.size.height) withFont:domainFont lineBreakMode:UILineBreakModeWordWrap];
+		[result.domainName drawInRect:CGRectMake(30, 8, rect.size.width - 60, rect.size.height) withFont:domainFont lineBreakMode:UILineBreakModeWordWrap];
 		
 		[lightTextColor set];
-		[result.availability drawInRect:CGRectMake(40, rect.size.height - 25, rect.size.width - 50, 20) withFont:availabilityFont lineBreakMode:UILineBreakModeWordWrap];
+		[result.availability drawInRect:CGRectMake(30, rect.size.height - 25, rect.size.width - 50, 20) withFont:availabilityFont lineBreakMode:UILineBreakModeWordWrap];
 		
 		if(result.imageType == kAvailable)
-		 	[[UIImage imageNamed:@"available.png"] drawInRect: CGRectMake(12.5, (rect.size.height - 20) / 2.0, 15, 15) blendMode: kCGBlendModeNormal alpha: 1.0];
+		 	[[UIImage imageNamed:@"available.png"] drawInRect: CGRectMake(10, 15, 10, 10) blendMode: kCGBlendModeNormal alpha: 1.0];
 		else if(result.imageType == kMaybe)
-		 	[[UIImage imageNamed:@"maybe.png"] drawInRect: CGRectMake(12.5, (rect.size.height - 20) / 2.0, 15, 15) blendMode: kCGBlendModeNormal alpha: 1.0];
+		 	[[UIImage imageNamed:@"maybe.png"] drawInRect: CGRectMake(10, 15, 10, 10) blendMode: kCGBlendModeNormal alpha: 1.0];
 		else if(result.imageType == kTLD)
-			[[UIImage imageNamed:@"tld.png"] drawInRect: CGRectMake(12.5, (rect.size.height - 20) / 2.0, 15, 15) blendMode: kCGBlendModeNormal alpha: 1.0];
-		else if(result.imageType == kTaken) {
-			//currentImage = [UIImage imageNamed: @"taken.png"];
-		}
+			[[UIImage imageNamed:@"tld.png"] drawInRect: CGRectMake(10, 15, 10, 10) blendMode: kCGBlendModeNormal alpha: 1.0];
+
 	}
 
 	- (void) drawCellBackgroundInRect: (CGRect) theRect; {

@@ -56,9 +56,6 @@
 		[super viewDidLoad];
 	}
 
-	- (void)viewDidUnload {
-	}
-
 	- (BOOL)networkAvailable {
 		
 		if ([internetReach currentReachabilityStatus] == NotReachable) {
@@ -72,14 +69,16 @@
 #pragma mark UISearchBarDelegate methods
 	
 	- (void)toggleActivityIndicator:(BOOL)show; {
+		[self _hideClearButton];
 		[UIView beginAnimations:nil context:nil];
 		[UIView setAnimationDuration: 0.3];
+		[UIView setAnimationDelegate:self];
 		if(show)
 			[activityIndicator startAnimating];
 		else
 			[activityIndicator stopAnimating];
 		[activityIndicator setAlpha:show ? 1 : 0];
-		[UIView commitAnimations];	
+		[UIView commitAnimations];
 	}
 
 	- (void)setKeyboardState:(BOOL)show; {
@@ -169,8 +168,9 @@
 	}
 
 	- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_showClearButton) object:nil];
+		
 		jsonString = [[NSString alloc] initWithData:receivedData encoding:NSASCIIStringEncoding];
-		//NSLog(@"JSON: %@",jsonString);
 		jsonData = [jsonString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
 		NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:nil];
 		
@@ -182,7 +182,7 @@
 			Result *newResult = [[Result alloc] init];
 			newResult.domainName = [result objectForKey:@"domain"];
 			newResult.availability = [result objectForKey:@"availability"];
-			
+			newResult.path = [result objectForKey:@"path"];
 			
 			NSMutableArray *registrars = [result objectForKey:@"registrars"];
 			for (NSString *registrar in registrars) {
@@ -198,6 +198,15 @@
 		[myTableView reloadData];
 		loading = NO;
 		[self toggleActivityIndicator:NO];
+		[self performSelector:@selector(_showClearButton) withObject:nil afterDelay:0.3];
+	}
+
+	- (void)_showClearButton; {
+		[whiteBgView setHidden:YES];
+	}
+
+	- (void)_hideClearButton; {
+		[whiteBgView setHidden:NO];
 	}
 
 #pragma mark Table view methods
@@ -207,8 +216,8 @@
 		
 		NSString *domainNameString = [[results objectAtIndexA:indexPath.row] domainName];
 		CGSize aSize;	
-		aSize = [domainNameString sizeWithFont:[UIFont systemFontOfSize:16] 
-							 constrainedToSize:CGSizeMake(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 230.0 : 390, 1000)  
+		aSize = [domainNameString sizeWithFont:[UIFont systemFontOfSize:17] 
+							 constrainedToSize:CGSizeMake(UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 260.0 : 420, 1000)  
 						lineBreakMode:UILineBreakModeTailTruncation];  
 		return aSize.height+35;	
 	}

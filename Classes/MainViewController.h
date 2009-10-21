@@ -8,6 +8,7 @@
 	IBOutlet UITableView	*myTableView;
 	IBOutlet UISearchBar	*mySearchBar;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
+	IBOutlet UIView			*whiteBgView;
 	
 	NSData					*jsonData;
 	NSURL					*jsonURL;
@@ -33,6 +34,11 @@
 
 - (void) toggleActivityIndicator:(BOOL)show;
 - (void) setKeyboardState:(BOOL)show;
+- (void)_showKeyboardWorkAround;
+
+/* i know, these are hacky, got a better idea? ok fine, then fork it and fix it. jeez */ 
+- (void)_showClearButton;
+- (void)_hideClearButton;
 
 - (void) search;
 - (BOOL) networkAvailable;
