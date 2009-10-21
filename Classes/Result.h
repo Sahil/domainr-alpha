@@ -5,6 +5,7 @@
 @interface Result : NSObject {
 	NSString *domainName;
 	NSString *availability;
+	NSString *path;
 	NSMutableArray *registrars;
 	int imageType;
 	
@@ -13,6 +14,7 @@
 
 @property (retain) NSString	*domainName;
 @property (retain) NSString	*availability;
+@property (retain) NSString *path;
 @property (retain) NSMutableArray *registrars;
 @property int imageType;
 

@@ -2,7 +2,7 @@
 
 @implementation Result
 
-	@synthesize domainName, availability, registrars, resultCell, imageType;
+	@synthesize domainName, availability, path, registrars, resultCell, imageType;
 
 	- (void)dealloc; {
 		Release(domainName);
@@ -44,6 +44,15 @@
 			imageType = kTLD;
 			availability = [[NSString alloc] initWithString: @"subdomain"];
 		}
+		else if([avail isEqualToString:@"unavailable"]) {
+			availability = [avail retain];
+			imageType = kUnavailable;
+		}
+		else {
+			availability = [avail retain];
+			imageType = kTaken;
+		}
+
 	}
 
 @end

@@ -227,7 +227,6 @@
     }
 
     - (NSString*) substringBetween: (NSString*) a and: (NSString*) b; {
-        //DWLog(@"substringBetween: %@, %@, %@", a, b, NSStringFromRange([self rangeBetween: a and: b]));
         NSRange range = [self rangeBetween: a and: b];
         if (range.location != NSNotFound)
             return [self substringWithRange: range];
@@ -294,7 +293,6 @@
 		
         if (highlightRange.location == NSNotFound) {
             out = [self drawAtPoint: theRect.origin forWidth: theRect.size.width withFont: normalFont lineBreakMode: UILineBreakModeTailTruncation];
-			//DWLog([NSString stringWithFormat:@"^^^ %@: %f, %f", self, out.width, out.height]);
             return out;
         }
 		
@@ -304,7 +302,6 @@
 
             size = [substring drawAtPoint: theRect.origin forWidth: theRect.size.width withFont: normalFont lineBreakMode: UILineBreakModeTailTruncation];
             
-            //CGSize size = [substring sizeWithFont: normalFont forWidth: theRect.size.width lineBreakMode: UILineBreakModeTailTruncation];
             theRect.origin.x += size.width;
             theRect.size.width -= size.width;
         }
@@ -313,9 +310,6 @@
 		
         if (theRect.size.width < 10)
             return out;
-        
-        //DWLog(self);
-        //DWLog(@"middle starting at: %f (%f)", theRect.origin.x, theRect.size.width);
         
         /* middle */
         
@@ -337,9 +331,6 @@
         if (theRect.size.width < 10)
             return out;
             
-        //theRect.origin.x -= 0.5;
-        //DWLog(@"end starting at: %f (%f)", theRect.origin.x, theRect.size.width);
-
         /* end */
         
         if (highlightRange.location + highlightRange.length < [self length] && theRect.size.width > 0) {

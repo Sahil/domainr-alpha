@@ -16,10 +16,11 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-#define kAvailable	0
-#define kMaybe		1
-#define kTaken		2
-#define kTLD		3
+#define kAvailable	 0
+#define kMaybe		 1
+#define kTaken	 	 2
+#define kTLD		 3
+#define kUnavailable 4
 
 #define KEYBOARD_HEIGHT_PORTRAIT 216
 #define KEYBOARD_HEIGHT_LANDSCAPE 162
