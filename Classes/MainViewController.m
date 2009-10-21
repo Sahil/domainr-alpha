@@ -111,9 +111,10 @@
 		
 		if([searchText isEqualToString:@""]) {
 			[self toggleActivityIndicator:NO];
+			[results removeAllObjects];
+			[myTableView reloadData];
 			return;
 		}
-		
 		[self search];
 	}
 
