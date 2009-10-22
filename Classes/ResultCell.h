@@ -1,7 +1,6 @@
 #import "Result.h"
 @class ResultContentView;
 
-
 @interface ResultCell : UITableViewCell {
 	Result *result;
 	ResultContentView *mainContentView;
@@ -14,19 +13,6 @@
 
 @interface ResultContentView : UIView {
 	ResultCell *resultCell;
-}
-- (id) initWithResultCell: (ResultCell*) theCell;
-@end
-
-@interface ResultBackgroundView : UIView {
-    ResultCell* resultCell;
-}
-- (id) initWithResultCell: (ResultCell*) theCell;
-@end
-
-
-@interface ResultSelectedBackgroundView : UIView {
-    ResultCell* resultCell;
 }
 - (id) initWithResultCell: (ResultCell*) theCell;
 @end

@@ -15,6 +15,7 @@
 		[super dealloc];
 	}
 
+#pragma mark -
 
 	- (BOOL) shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation; {
 		return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
@@ -30,6 +31,7 @@
 		[myTableView reloadData];
 	}
 
+#pragma mark UIView methods
 
 	- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil; {
 		if(self = [super initWithNibName:nibNameOrNil bundle: nil]) {
@@ -38,36 +40,38 @@
 		return self;
 	}
 
+	- (void)viewDidAppear:(BOOL)animated; {
+		[super viewDidAppear: animated];
+	}
+
 	- (void)viewDidLoad {
 		internetReach = [[Reachability reachabilityForInternetConnection] retain];
 		[internetReach startNotifer];
-		
-		/* animate welcome greeting */
-		if([defaults objectForKey:@"FirstLaunch"] == nil) {
-			[defaults setObject:@"1" forKey:@"FirstLaunch"];
-//			[mySearchBar setPrompt:@"Give your domain search a happy ending."];
-		}
-		
+				
 		[myTableView setSeparatorColor:UIColorFromRGB(0xEEEEEE)];
 
 		[mySearchBar becomeFirstResponder];
 		[self setKeyboardState:YES];
 		[self toggleActivityIndicator:NO];
+		
 		[super viewDidLoad];
 	}
+
+#pragma mark -
+#pragma mark Various helpers
+#pragma mark -
 
 	- (BOOL)networkAvailable {
 		
 		if ([internetReach currentReachabilityStatus] == NotReachable) {
 			UIAlertView *networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sorry, the network isn't available." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
 			[networkAlert show];
+			Release(networkAlert);
 			return NO;
 		}
 		return YES;
 	}
 
-#pragma mark UISearchBarDelegate methods
-	
 	- (void)toggleActivityIndicator:(BOOL)show; {
 		[self _hideClearButton];
 		[UIView beginAnimations:nil context:nil];
@@ -99,6 +103,10 @@
 		[self setKeyboardState:YES];
 	}
 	
+#pragma mark -
+#pragma mark UISearchBar methods
+#pragma mark -
+
 	- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar { // return NO to not become first responder
 		return YES;
 	}
@@ -162,7 +170,9 @@
 		}
 	}
 
+#pragma mark -
 #pragma mark NSURLConnection methods 
+#pragma mark -
 
 	- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 		[receivedData appendData:data];
@@ -170,10 +180,10 @@
 
 	- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_showClearButton) object:nil];
-		
+		NSError *error = nil;
 		jsonString = [[NSString alloc] initWithData:receivedData encoding:NSASCIIStringEncoding];
 		jsonData = [jsonString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
-		NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:nil];
+		NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:&error];
 		
 		if(results)
 			Release(results);
@@ -199,7 +209,7 @@
 		[myTableView reloadData];
 		loading = NO;
 		[self toggleActivityIndicator:NO];
-		[self performSelector:@selector(_showClearButton) withObject:nil afterDelay:0.3];
+		[self performSelector:@selector(_showClearButton) withObject:nil afterDelay:0];
 	}
 
 	- (void)_showClearButton; {
@@ -210,7 +220,9 @@
 		[whiteBgView setHidden:NO];
 	}
 
+#pragma mark -
 #pragma mark Table view methods
+#pragma mark -
 
 	- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 		if(results == nil) return 40;

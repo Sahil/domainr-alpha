@@ -81,7 +81,9 @@
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="IBText"/>
 						<string key="IBPlaceholder">Search Domainr</string>
-						<object class="IBUITextInputTraits" key="IBTextInputTraits"/>
+						<object class="IBUITextInputTraits" key="IBTextInputTraits">
+							<int key="IBUIAutocorrectionType">1</int>
+						</object>
 					</object>
 					<object class="IBUIView" id="684114060">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -271,7 +273,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>MainViewController</string>
 					<string>UIResponder</string>
-					<string>{{85, 546}, {320, 460}}</string>
+					<string>{{85, 396}, {320, 460}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{300, 605}, {20, 20}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

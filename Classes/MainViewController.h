@@ -27,6 +27,9 @@
 	Reachability			*internetReach;
 	
 	BOOL					keyboardHidden;
+	
+	BOOL					firstLaunch;
+	UIAlertView				*alert;
 }
 
 @property (nonatomic, retain) UITableView	*myTableView;
