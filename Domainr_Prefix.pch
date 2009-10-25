@@ -1,7 +1,9 @@
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
+	#import "SDImage.h"
 	#import "NSObject+Extensions.h"
 	#import "NSString+Extensions.h"
 	#import "UITableView+Extensions.h"
+	#import "WebViewController.h"
 #endif

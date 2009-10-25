@@ -3,6 +3,7 @@
 @implementation ResultCell
 
 	@synthesize result, mainContentView;
+	@synthesize swiping, hasSwiped, hasSwipedLeft, hasSwipedRight, fingerIsMovingLeftOrRight, fingerMovingVertically;
 
 	- (id) initWithStyle: (UITableViewCellStyle)style reuseIdentifier: (NSString*) reuseIdentifier; {
 		self = [super initWithStyle:style reuseIdentifier: reuseIdentifier];
@@ -35,8 +36,6 @@
 		[super dealloc];
 	}
 
-#pragma mark -
-
 	- (void) setSelected: (BOOL) selected animated: (BOOL) animated; {
 		if (self.selectionStyle != UITableViewCellSeparatorStyleNone) {
 			[super setSelected: selected animated: animated];
@@ -51,11 +50,7 @@
 		result = [theResult retain];
 		result.resultCell = self;
 		
-		#ifdef optimization
 		[self.mainContentView setNeedsDisplay];
-		#else
-		[self.backgroundView setNeedsDisplay];
-		#endif
 	}
 
 	#pragma mark -
@@ -120,7 +115,95 @@
 			[[UIImage imageNamed:@"tld.png"] drawInRect:CGRectMake(10, 15, 10, 10)
 											  blendMode:kCGBlendModeNormal
 												  alpha:1.0];
+	}
 
+#pragma mark -
+
+	#define HORIZ_SWIPE_DRAG_MIN 12
+	#define VERT_SWIPE_DRAG_MAX 4
+
+	- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event; {
+		UITouch *touch = [touches anyObject];
+		startTouchPosition = [touch locationInView:self];
+		self.swiping = NO;
+		self.hasSwiped = NO;
+		self.hasSwipedLeft = NO;
+		self.hasSwipedRight = NO;
+		self.fingerIsMovingLeftOrRight = NO;
+		self.fingerMovingVertically = NO;
+		[self.nextResponder touchesBegan:touches withEvent:event];
+	}
+
+
+	- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event; {
+		if ([self isTouchGoingLeftOrRight:[touches anyObject]]) {
+			[self lookForSwipeGestureInTouches:(NSSet *)touches withEvent:(UIEvent *)event];
+			[super touchesMoved:touches withEvent:event];
+		} else {
+			[self.nextResponder touchesMoved:touches withEvent:event];
+		}
+	}
+
+
+	// Determine what kind of gesture the finger event is generating
+	- (BOOL)isTouchGoingLeftOrRight:(UITouch *)touch; {
+		CGPoint currentTouchPosition = [touch locationInView:self];
+		if (fabsf(startTouchPosition.x - currentTouchPosition.x) >= 1.0) {
+			self.fingerIsMovingLeftOrRight = YES;
+			return YES;
+		} else {
+			self.fingerIsMovingLeftOrRight = NO;
+			return NO;
+		}
+		if (fabsf(startTouchPosition.y - currentTouchPosition.y) >= 2.0) {
+			self.fingerMovingVertically = YES;
+		} else {
+			self.fingerMovingVertically = NO;
+		}
+	}
+
+	- (BOOL)fingerIsMovingVertically; {
+		return self.fingerMovingVertically;
+	}
+
+	// Check for swipe gestures
+	- (void)lookForSwipeGestureInTouches:(NSSet *)touches withEvent:(UIEvent *)event; {
+		UITouch *touch = [touches anyObject];
+		CGPoint currentTouchPosition = [touch locationInView:self];
+		
+		[self setSelected:NO];
+		self.swiping = YES;
+		
+		if (hasSwiped == NO) {
+			if (fabsf(startTouchPosition.x - currentTouchPosition.x) >= HORIZ_SWIPE_DRAG_MIN &&
+				fabsf(startTouchPosition.y - currentTouchPosition.y) <= VERT_SWIPE_DRAG_MAX) {
+				// It's a swipe!
+				if (startTouchPosition.x < currentTouchPosition.x) {
+					hasSwiped = YES;
+					hasSwipedRight = YES;
+					swiping = NO;
+					
+					//NSLog(@"Swipe Right");
+				} else {
+					hasSwiped = YES;
+					hasSwipedLeft = YES;
+					swiping = NO;
+					//NSLog(@"Swipe Left");
+				}
+			} else {
+				// No swipe
+			}
+			
+		}
+	}
+
+	- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event; {
+		self.swiping = NO;
+		self.hasSwiped = NO;
+		self.hasSwipedLeft = NO;
+		self.hasSwipedRight = NO;
+		self.fingerMovingVertically = NO;
+		[self.nextResponder touchesEnded:touches withEvent:event];
 	}
 
 @end

@@ -289,7 +289,7 @@
         NSRange highlightRange = (EmptyString(highlightedString)) ? NSMakeRange(NSNotFound, 0) : [self rangeOfString: highlightedString options: NSCaseInsensitiveSearch];
 
 		CGSize size = CGSizeMake(0,0);
-		CGSize out  = CGSizeMake(0,0);
+		CGSize out;
 		
         if (highlightRange.location == NSNotFound) {
             out = [self drawAtPoint: theRect.origin forWidth: theRect.size.width withFont: normalFont lineBreakMode: UILineBreakModeTailTruncation];

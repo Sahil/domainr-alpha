@@ -1,14 +1,14 @@
 #import <UIKit/UIKit.h>
 #import "CJSONDeserializer.h"
 
+@class DomainrTableView;
 @class Reachability;
 
 @interface MainViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UINavigationBarDelegate> {	
-	UINavigationController	*navController;
-	IBOutlet UITableView	*myTableView;
-	IBOutlet UISearchBar	*mySearchBar;
-	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UIView			*whiteBgView;
+	IBOutlet DomainrTableView			*myTableView;
+	IBOutlet UISearchBar				*mySearchBar;
+	IBOutlet UIActivityIndicatorView	*activityIndicator;
+	IBOutlet UIView						*whiteBgView;
 	
 	NSData					*jsonData;
 	NSURL					*jsonURL;
@@ -32,8 +32,8 @@
 	UIAlertView				*alert;
 }
 
-@property (nonatomic, retain) UITableView	*myTableView;
-@property (nonatomic, retain) UISearchBar	*mySearchBar;
+@property (nonatomic, retain) DomainrTableView	*myTableView;
+@property (nonatomic, retain) UISearchBar		*mySearchBar;
 
 - (void) toggleActivityIndicator:(BOOL)show;
 - (void) setKeyboardState:(BOOL)show;

@@ -2,20 +2,20 @@
 
 @implementation Result
 
-	@synthesize domainName, availability, path, registrars, resultCell, imageType;
+	@synthesize domainName, availability, path, registerURL, registrars, resultCell, imageType;
 
 	- (void)dealloc; {
 		Release(domainName);
 		Release(availability);
 		Release(registrars);
-		Release(resultCell);
+		Release(registerURL);
 		[super dealloc];
 	}
 
 	- (NSMutableArray *)registrars; {
 		if(!registrars)
 			registrars = [[NSMutableArray alloc] init];
-		return nil;
+		return registrars;
 	}
 
 	-(void)setAvailability:(NSString *)avail; {
@@ -24,27 +24,27 @@
 		
 		Release(availability);
 		
-		if([avail isEqualToString:@"available"]){
+		if([avail isEqualToString:NSLocalizedString(@"available",nil)]){
 			availability = [avail retain];
 			imageType = kAvailable;
 		}
-		else if([avail isEqualToString:@"maybe"]) {
+		else if([avail isEqualToString:NSLocalizedString(@"maybe",nil)]) {
 			availability = [avail retain];
 			imageType = kMaybe;
 		}
-		else if([avail isEqualToString:@"taken"]) {
+		else if([avail isEqualToString:NSLocalizedString(@"taken",nil)]) {
 			availability = [avail retain];
 			imageType = kTaken;
 		}
-		else if([avail isEqualToString:@"tld"]) {
+		else if([avail isEqualToString:NSLocalizedString(@"tld",nil)]) {
 			imageType = kTLD;
-			availability = [[NSString alloc] initWithString: @"top-level domain"];
+			availability = [@"top-level domain" retain];
 		}
-		else if([avail isEqualToString:@"known"]) {
+		else if([avail isEqualToString:NSLocalizedString(@"known",nil)]) {
 			imageType = kTLD;
-			availability = [[NSString alloc] initWithString: @"subdomain"];
+			availability = [@"subdomain" retain];
 		}
-		else if([avail isEqualToString:@"unavailable"]) {
+		else if([avail isEqualToString:NSLocalizedString(@"unavailable",nil)]) {
 			availability = [avail retain];
 			imageType = kUnavailable;
 		}
@@ -52,7 +52,13 @@
 			availability = [avail retain];
 			imageType = kTaken;
 		}
+	}
 
+	-(BOOL)isResolvable; {
+		if(imageType == kAvailable || imageType == kUnavailable || imageType == kTLD || imageType == kMaybe) {
+			return NO;
+		}
+		return YES;
 	}
 
 @end

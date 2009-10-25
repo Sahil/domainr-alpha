@@ -24,7 +24,7 @@ return([[[self alloc] init] autorelease]);
 {
 if (inData == NULL || [inData length] == 0)
 	{
-	if (*outError)
+	if (outError != NULL && *outError)
 		*outError = [NSError errorWithDomain:kJSONDeserializerErrorDomain code:-1 userInfo:NULL];
 
 	return(NULL);
@@ -47,7 +47,7 @@ else
 {
 if (inData == NULL || [inData length] == 0)
 	{
-	if (*outError)
+	if (outError != NULL && *outError)
 		*outError = [NSError errorWithDomain:kJSONDeserializerErrorDomain code:-1 userInfo:NULL];
 
 	return(NULL);

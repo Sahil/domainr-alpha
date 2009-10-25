@@ -1,13 +1,15 @@
 #import "MainViewController.h"
 #import "ResultCell.h"
 #import	"Reachability.h"
+#import "DomainrTableView.h"
+#import "ResultViewController.h"
 
 @implementation MainViewController
 
 	@synthesize myTableView;
 	@synthesize mySearchBar;
 
-	- (void)dealloc {
+	- (void)dealloc; {
 		Release(myTableView);
 		Release(mySearchBar);
 		Release(activityIndicator);
@@ -40,11 +42,11 @@
 		return self;
 	}
 
-	- (void)viewDidAppear:(BOOL)animated; {
-		[super viewDidAppear: animated];
+	- (void)viewWillAppear:(BOOL)animated; {
+		[super viewWillAppear: animated];
 	}
 
-	- (void)viewDidLoad {
+	- (void)viewDidLoad; {
 		internetReach = [[Reachability reachabilityForInternetConnection] retain];
 		[internetReach startNotifer];
 				
@@ -57,14 +59,20 @@
 		[super viewDidLoad];
 	}
 
+	- (void)viewDidUnload; {
+		Release(internetReach);
+		[super viewDidUnload];
+	}
+			
+
 #pragma mark -
 #pragma mark Various helpers
 #pragma mark -
 
-	- (BOOL)networkAvailable {
+	- (BOOL)networkAvailable; {
 		
 		if ([internetReach currentReachabilityStatus] == NotReachable) {
-			UIAlertView *networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Sorry, the network isn't available." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+			UIAlertView *networkAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error",nil) message:NSLocalizedString(@"Sorry, the network isn't available.",nil) delegate:self cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK",nil), nil];
 			[networkAlert show];
 			Release(networkAlert);
 			return NO;
@@ -88,6 +96,7 @@
 	- (void)setKeyboardState:(BOOL)show; {
 		keyboardHidden = !show;
 		
+		
 		CGRect newFrame = [myTableView frame];
 		if(show) {
 			newFrame.size.height = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 460 - 44 - KEYBOARD_HEIGHT_PORTRAIT : 300 - 44 - KEYBOARD_HEIGHT_LANDSCAPE;
@@ -107,7 +116,7 @@
 #pragma mark UISearchBar methods
 #pragma mark -
 
-	- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar { // return NO to not become first responder
+	- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar; { // return NO to not become first responder
 		return YES;
 	}
 
@@ -115,7 +124,7 @@
 		[self performSelector:@selector(_showKeyboardWorkAround) withObject:nil afterDelay:0.5];
 	}
 
-	- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{   // called when text changes (including clear)
+	- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {   // called when text changes (including clear)
 		
 		if([searchText isEqualToString:@""]) {
 			[self toggleActivityIndicator:NO];
@@ -126,7 +135,7 @@
 		[self search];
 	}
 
-	- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text { // called before text changes
+	- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text; { // called before text changes
 		if(![self networkAvailable]) return NO;
 		
 		if(([text isEqualToString:@""] && [[mySearchBar text] length] == 0)) {
@@ -141,14 +150,14 @@
 		return YES;
 	}
 
-	- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {                     // called when keyboard search button pressed
+	- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar; { // called when keyboard search button pressed
 		[self setKeyboardState:NO];
 		if(![self networkAvailable]) return;
 		
 		[self search];
 	}
 
-	- (void)search {
+	- (void)search; {
 		NSString *searchText = [mySearchBar text];
 		
 		[self toggleActivityIndicator:YES];
@@ -163,10 +172,9 @@
 		
 		theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 		if (theConnection) {
-			NSLog(@"Request submitted");
 			receivedData=[[NSMutableData data] retain];
-		} else {
-			NSLog(@"Failed to submit request"); 
+		} 
+		else {
 		}
 	}
 
@@ -174,16 +182,14 @@
 #pragma mark NSURLConnection methods 
 #pragma mark -
 
-	- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+	- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data; {
 		[receivedData appendData:data];
 	}
 
-	- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	- (void)connectionDidFinishLoading:(NSURLConnection *)connection; {
 		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_showClearButton) object:nil];
 		NSError *error = nil;
-		jsonString = [[NSString alloc] initWithData:receivedData encoding:NSASCIIStringEncoding];
-		jsonData = [jsonString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
-		NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:&error];
+		NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:receivedData error:&error];
 		
 		if(results)
 			Release(results);
@@ -194,12 +200,13 @@
 			newResult.domainName = [result objectForKey:@"domain"];
 			newResult.availability = [result objectForKey:@"availability"];
 			newResult.path = [result objectForKey:@"path"];
-			
+			newResult.registerURL = [result objectForKey:@"register_url"];
 			NSMutableArray *registrars = [result objectForKey:@"registrars"];
 			for (NSString *registrar in registrars) {
 				[newResult.registrars addObject:registrar];				
 			}
 			[results addObject:newResult];
+			Release(newResult);
 		}
 		
 		[receivedData setLength:0];
@@ -209,7 +216,7 @@
 		[myTableView reloadData];
 		loading = NO;
 		[self toggleActivityIndicator:NO];
-		[self performSelector:@selector(_showClearButton) withObject:nil afterDelay:0];
+		[self performSelector:@selector(_showClearButton) withObject:nil afterDelay:0.1];
 	}
 
 	- (void)_showClearButton; {
@@ -224,7 +231,7 @@
 #pragma mark Table view methods
 #pragma mark -
 
-	- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath; {
 		if(results == nil) return 40;
 		
 		NSString *domainNameString = [[results objectAtIndexA:indexPath.row] domainName];
@@ -235,23 +242,26 @@
 		return aSize.height+35;	
 	}
 
-	- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView; {
 		return 1;
 	}
 
-	- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section; {
 		if(results == nil) return 0;
 		return [results count];
 	}
 
-	- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath; {
 		ResultCell *cell = (ResultCell *)[tableView cellForClass:[ResultCell class]];
 		[cell setResult:[results objectAtIndexA:indexPath.row]];
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 		return cell;
 	}
 
-	- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath; {
+		
+		ResultViewController *resultViewController = [[[ResultViewController alloc] initWithResult:[results objectAtIndexA:indexPath.row]] autorelease];
+		[self.navigationController pushViewController:resultViewController animated:YES];
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	}
 
